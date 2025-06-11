@@ -13,6 +13,7 @@ const (
 	ViewChange
 	NewView
 	Request
+	Checkpoint
 )
 
 var MessageType2Str = []string{
@@ -21,8 +22,9 @@ var MessageType2Str = []string{
 	"commit",
 	"reply",
 	"view-change",
-	"newview",
+	"new-view",
 	"request",
+	"checkpoint",
 }
 var Str2MessageType = map[string]MessageType{
 	"preprepare":  PrePrepare,
@@ -30,8 +32,9 @@ var Str2MessageType = map[string]MessageType{
 	"commit":      Commit,
 	"reply":       Reply,
 	"view-change": ViewChange,
-	"newview":     NewView,
+	"new-view":    NewView,
 	"request":     Request,
+	"checkpoint":  Checkpoint,
 }
 
 // Message represents a PBFT protocol message.

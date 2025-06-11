@@ -2,7 +2,6 @@ package net
 
 import (
 	c "Dekvium/common"
-	"Dekvium/pbft"
 	"bytes"
 	"encoding/json"
 	"io"
@@ -31,7 +30,7 @@ func BroadcastMessage(peers []string, msg *c.Message) {
 }
 
 // StartPBFTServer starts an HTTP server to receive PBFT messages.
-func StartListening(addr string, n *pbft.Node) {
+func StartListening(addr string, n interface{ SendMessage(c.Message) }) {
 	http.HandleFunc("/pbft", func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		var msg c.Message
