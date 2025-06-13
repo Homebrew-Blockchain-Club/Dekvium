@@ -52,15 +52,12 @@ func getMajorityResult(responses []common.Message) (bool, string) {
 		if msg.Type != common.Reply {
 			continue
 		}
-		var resp struct {
-			Success bool
-			Value   string
-			Error   string
-		}
-		_ = json.Unmarshal(msg.Payload, &resp)
-		key := fmt.Sprintf("%v|%v", resp.Success, resp.Value)
+		var resp string
+		// _ = json.Unmarshal(msg.Payload, &resp)
+		resp = string(msg.Payload)
+		key := fmt.Sprintf("%v", resp)
 		counts[key]++
-		values[key] = resp.Value
+		values[key] = resp
 	}
 	// PBFT: need n >= 3f+1, consensus is 2f+1
 	majority := 0

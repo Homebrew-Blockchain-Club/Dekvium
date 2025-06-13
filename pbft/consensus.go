@@ -64,9 +64,9 @@ func newConsensusFSM(n *Node) *consensusFSM {
 					return msg
 				}
 				switch e.Dst {
-				case "preprepare":
+				case "preprepared":
 					logrus.Infof("%s: Entered preprepare state", c.CurFuncName())
-				case "prepare", "commit":
+				case "prepared", "committed":
 					msg := makeMsg()
 					addrs := make([]string, 0)
 					for _, peer := range n.Config.Peers {
@@ -79,7 +79,10 @@ func newConsensusFSM(n *Node) *consensusFSM {
 					logrus.Infof("%s: Entered idle state", c.CurFuncName())
 					if e.Event == "reply" {
 						logrus.Infof("%s: Sending reply to client", c.CurFuncName())
-						n.respChan <- makeMsg()
+						msg := makeMsg()
+						n.service(&msg)
+						n.respChan <- msg
+						n.sequence++
 					}
 					// TODO: when it's viewchange finished, update view
 				}
